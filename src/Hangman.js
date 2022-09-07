@@ -71,12 +71,22 @@ class Hangman extends Component {
 
   /** render: render game */
   render() {
+
+    const buttons = this.generateButtons();
+
+    const altString = `${this.state.nWrong} wrong guesses`;
+
     return (
       <div className="Hangman">
         <h1>Hangman</h1>
-        <img src={this.props.images[this.state.nWrong]} />
-        <p className="Hangman-word">{this.guessedWord()}</p>
-        <p className="Hangman-btns">{this.generateButtons()}</p>
+        <img src={this.props.images[this.state.nWrong]} alt={altString}/>
+        <h3>Number of wrong guesses: {this.state.nWrong}</h3>
+        <p className="Hangman-word">
+        {( this.state.nWrong < this.props.maxWrong ? this.guessedWord() : this.state.answer )}
+        </p>
+        <p className="Hangman-btns">
+          {( this.state.nWrong < this.props.maxWrong ? buttons : "Game Over")}
+        </p>
       </div>
     );
   }
