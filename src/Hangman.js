@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {randomWord} from './words.js';
 import "./Hangman.css";
 import img0 from "./0.jpg";
 import img1 from "./1.jpg";
@@ -24,9 +25,10 @@ class Hangman extends Component {
     this.state = { 
       nWrong: 0, 
       guessed: new Set(), 
-      answer: "apple" };
+      answer: randomWord() };
 
     this.handleGuess = this.handleGuess.bind(this);
+    this.handleRestart = this.handleRestart.bind(this);
   }
 
   /** guessedWord: show current-state of word:
@@ -69,6 +71,18 @@ class Hangman extends Component {
     ));
   }
 
+  handleRestart(evt) {
+
+    this.setState(
+      (prevState) => ({
+        nWrong: 0,
+        guessed: new Set(),
+        answer: randomWord()
+      })
+    )
+
+  }
+
   /** render: render game */
   render() {
 
@@ -77,6 +91,7 @@ class Hangman extends Component {
     const altString = `${this.state.nWrong} wrong guesses`;
 
     return (
+      <div>
       <div className="Hangman">
         <h1>Hangman</h1>
         <img src={this.props.images[this.state.nWrong]} alt={altString}/>
@@ -87,6 +102,8 @@ class Hangman extends Component {
         <p className="Hangman-btns">
           {( this.state.nWrong < this.props.maxWrong ? buttons : "Game Over")}
         </p>
+      </div>
+      <button onClick={this.handleRestart}>Restart</button>
       </div>
     );
   }
